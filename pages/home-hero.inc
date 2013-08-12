@@ -8,16 +8,16 @@
 			Kogi retro ullamco, Williamsburg YOLO intelligentsia seitan DIY viral deserunt. Fanny pack tattooed cornhole, est accusamus semiotics asymmetrical 90's ethnic intelligentsia kogi.
 			<br/><br/>
 			<form>
-    			<div class="hero-form col-12"><input type="text" class="form-control" placeholder="Name of organisation" /></div>
-    			<div class="hero-form col-12"><input type="text" class="form-control" placeholder="Street Address" /></div>
+    			<div class="hero-form col-12"><input type="text" id="form-name" class="form-control" placeholder="Name of organisation" /></div>
+    			<div class="hero-form col-12"><input type="text" id="form-address" class="form-control" placeholder="Street Address" /></div>
     			<div class="hero-form col-6">
-    				<input type="text" class="form-control" placeholder="City, town, etc" />
+    				<input type="text" class="form-control" id="form-city" placeholder="City, town, etc" />
     			</div>
     			<div class="hero-form col-6">
-    				<input type="text" class="form-control" placeholder="Postcode" />
+    				<input type="text" class="form-control" id="form-postcode" placeholder="Postcode" />
     			</div>
     			<br/>
-    			<button type="submit" class="btn btn-large btn-primary">Send</button>
+    			<button type="submit" class="btn btn-large btn-primary">Next...</button>
     		</form>
 		</div>
 	</div>

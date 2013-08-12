@@ -15,8 +15,12 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0-rc1/css/bootstrap.min.css" rel="stylesheet" media="screen">
 		<link href="/style.css" rel="stylesheet" media="screen">
+		<link href="/typeahead-bs.css" rel="stylesheet" media="screen">
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 		<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0-rc1/js/bootstrap.min.js"></script>
+		<script src="/hogan.js"></script>
+		<script src="/typeahead.min.js"></script>
+		<script src="/site.js"></script>
 	</head>
 	<body>
 		<div class="navbar navbar-inverse navbar-fixed-top">

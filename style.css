@@ -43,3 +43,14 @@ div.hero-form {
 	text-align: center;
 	border-top: 1px solid #e5e5e5;
 }
+
+.twitter-typeahead {
+	width: 100% !important;
+	background-size: 100% 100% !important;
+	-webkit-background-size: 100% 100% !important;
+	background-color: #fff;
+}
+
+.tt-hint {
+	display: none !important;
+}
