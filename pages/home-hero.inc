@@ -16,6 +16,13 @@
     			<div class="hero-form col-6">
     				<input type="text" class="form-control" id="form-postcode" placeholder="Postcode" />
     			</div>
+    			<div class="hero-form col-12">
+    				<select class="form-control" id="form-template">
+    					<option value="misgendered">I was misgendered by an employee.</option>
+    					<option value="mx">Please add Mx. to your list of titles.</option>
+    					<option value="othergender">Please expand your mandatory-yet-binary gender choices.</option>
+    				</select>
+    			</div>
     			<br/>
     			<button type="submit" class="btn btn-large btn-primary">Next...</button>
     		</form>
