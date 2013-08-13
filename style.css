@@ -54,3 +54,7 @@ div.hero-form {
 .tt-hint {
 	display: none !important;
 }
+
+footer a img {
+	vertical-align: top !important;
+}

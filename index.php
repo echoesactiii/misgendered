@@ -53,7 +53,11 @@
 		?>
 		</div>
 		<footer class="bs-footer">
-			Four loko pop-up consectetur actually. Banksy hella yr, 90's Schlitz literally umami. Delectus Marfa quinoa before they sold out.
+			<a rel="license" href="http://creativecommons.org/licenses/by-sa/2.0/uk/deed.en_GB"><img alt="Creative Commons Licence" style="border-width:0" src="http://i.creativecommons.org/l/by-sa/2.0/uk/88x31.png" /></a>
+			<a href="https://twitter.com/misgendered" class="twitter-follow-button" data-show-count="false" data-size="large" data-dnt="true">Follow @misgendered</a>
+			<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+			<iframe src="http://ghbtns.com/github-btn.html?user=cmantito&amp;repo=misgendered.me&amp;type=watch&amp;size=large" allowtransparency="true" frameborder="0" scrolling="0" width="90" height="30"></iframe>
+			<br/>This work by <a xmlns:cc="http://creativecommons.org/ns#" href="http://misgendered.me" property="cc:attributionName" rel="cc:attributionURL">misgendered.me</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/2.0/uk/deed.en_GB">Creative Commons Attribution-ShareAlike 2.0 UK: England &amp; Wales License</a>.
 		</footer>
 	</bodyL
 </html>
