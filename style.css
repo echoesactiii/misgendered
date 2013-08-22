@@ -59,6 +59,14 @@ footer a img {
 	vertical-align: top !important;
 }
 
-div#formset-misgendered {
+div#formset-misgendered, div#formset-final {
 	display: none;
+}
+
+option.opt-placeholder {
+	color: #c2c2b2 !important;
+}
+
+p.form-label {
+	text-align: left;
 }

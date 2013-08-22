@@ -21,6 +21,12 @@ $(document).ready(function(){
 		$('#formset-misgendered').show();
 	});
 
+	$('#btn-final-next').click(function(e){
+		e.preventDefault();
+		$('div.formset-div').hide();
+		$('#formset-final').show();
+	});
+
 	$('#form-gender-id').change(function(e){
 		if($('#form-gender-id').val() == "ftm"){
 			var explanation = "I am a man who was born into a typically female body. Throughout my life, I have been aware of the fact I am male, and I present as male in my day-to-day existence.";
