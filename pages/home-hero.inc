@@ -38,6 +38,7 @@
                             <option value="androgyne">Androgyne</option>
                             <option value="genderless">Genderless</option>
                             <option value="neutrois">Neutrois</option>
+                            <option value="genderfluid">Gender-fluid</option>
                         </select>
                     </div>
                     <div class="hero-from col-12">
