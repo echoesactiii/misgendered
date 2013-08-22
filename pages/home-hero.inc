@@ -57,7 +57,6 @@
                     </div>
                     <div class="hero-form col-12">
                         <input type="text" class="form-control" placeholder="Explanation of gender identity" value="" id="form-gender-explanation" />
-                        <!-- TODO: This still needs autofill. -->
                     </div>
                     <button type="submit" class="btn btn-large btn-primary">Next...</button>
                 </form>

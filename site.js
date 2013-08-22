@@ -31,5 +31,7 @@ $(document).ready(function(){
 		}else if($('#form-gender-id').val() == "genderfluid"){
 			var explanation = "I am a person who does not fit into the narrow two gender system used by the majority of western societies. Though this is a concept unknown to many non-transgender people, it is important to note that the NHS and many other world health services recognise gender as a spectrum. My gender identity moves around within this spectrum, and I sometimes change the way I present my gender to the world. This helps me express this, and also helps me feel more comfortable in my body.";
 		}
+
+		$('#form-gender-explanation').val(explanation);
 	})
 });
