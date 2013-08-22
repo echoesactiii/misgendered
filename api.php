@@ -1,7 +1,8 @@
 <?php
 
 require_once 'include/rb.php';
-R::setup('mysql:host=localhost; dbname=misgende_website','misgende_sql','beans-witch1');
+include("settings.php");
+R::setup('mysql:host='.$dbHost.'; dbname='.$dbName,$dbUser,$dbPassword);
 
 $payload = @json_decode($_REQUEST['json']);
 
