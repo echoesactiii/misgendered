@@ -56,7 +56,7 @@
                         </select>
                     </div>
                     <div class="hero-form col-12">
-                        <input type="text" class="form-control" placeholder="Explanation of gender identity" value="" id="form-gender-explanation" />
+                        <textarea class="form-control" placeholder="Explanation of gender identity" id="form-gender-explanation"></textarea>
                     </div>
                     <button type="submit" class="btn btn-large btn-primary">Next...</button>
                 </form>
