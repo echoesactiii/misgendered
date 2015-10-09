@@ -78,33 +78,37 @@
 
           <div class="inner cover">
             <h1 class="cover-heading">Send a letter</h1>
-            <p class="lead">Has an organisation misgendered you or been transphobic toward you? You can use this form to send them an anonymous letter explaining what they've done wrong, and how they can improve.</p>
-            <form class="form">
+            <p class="lead">Has an organisation misgendered you or been transphobic toward you? You can use this form to send them an anonymous letter explaining what they've done wrong, and how they can improve. (For the moment, this is limited to UK addresses.)</p>
+            <form class="form" action="send-letter" method="POST">
               <p>
                 <div class="row">
                   <div class="form-group col-md-12">
                     <label class="sr-only" for="company_name">Organisation Name</label>
-                    <input type="text" class="form-control" id="org_name" placeholder="Company Name" required="true">
+                    <input type="text" class="form-control" name="org_name" id="org_name" placeholder="Company Name" required="true">
                   </div>
                 </div>
                 <div class="row">
-                  <div class="form-group col-md-4">
-                    <label class="sr-only" for="org_address">Address</label>
-                    <input type="text" class="form-control" id="org_address" placeholder="Street Address"required="true">
+                  <div class="form-group col-md-3">
+                    <label class="sr-only" for="org_house">House number or name</label>
+                    <input type="text" class="form-control" name="org_house" id="org_house" placeholder="House nbr/name" required="true">
                   </div>
-                  <div class="form-group col-md-4">
+                  <div class="form-group col-md-3">
+                    <label class="sr-only" for="org_street">Street name</label>
+                    <input type="text" class="form-control" name="org_street" id="org_street" placeholder="Street name" required="true">
+                  </div>
+                  <div class="form-group col-md-3">
                     <label class="sr-only" for="org_city">City</label>
-                    <input type="text" class="form-control" id="org_city" placeholder="City" required="true">
+                    <input type="text" class="form-control" name="org_city" id="org_city" placeholder="City" required="true">
                   </div>
-                  <div class="form-group col-md-4">
+                  <div class="form-group col-md-3">
                     <label class="sr-only" for="org_postcode">Post code</label>
-                    <input type="text" class="form-control" id="org_postcode" placeholder="Postcode" required="true">
+                    <input type="text" class="form-control" name="org_postcode" id="org_postcode" placeholder="Postcode" required="true">
                   </div>
                 </div>
                 <div class="row">
                   <div class="form-group col-md-12">
                     <label class="sr-only" for="letter_type">Type of incident</label>
-                    <select id="letter_type" class="form-control" required="true">
+                    <select name="letter_type" id="letter_type" class="form-control" required="true">
                       <option value="" class="default-opt" selected="true">What happened?</option>
                       {{#letter_types}}
                       <option value="{{name}}">{{heading}}</option>
@@ -115,7 +119,7 @@
                 <div class="row">
                   <div class="form-group col-md-12">
                     <label class="sr-only" for="other_info">Other optional information</label>
-                    <textarea id="other_info" class="form-control" placeholder="(Optional) Any other information you wish to provide, this will be included as a PS in the letter. Do not use personally identifying info unless anonymity is not an issue."></textarea>
+                    <textarea name="other_info" id="other_info" class="form-control" placeholder="(Optional) Any other information you wish to provide, this will be included as a PS in the letter. Do not use personally identifying info unless anonymity is not an issue."></textarea>
                   </div>
                 </div>
               </p>
