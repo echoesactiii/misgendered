@@ -18,6 +18,8 @@
     <!-- Cover CSS -->
     <link href="styles/cover.css" rel="stylesheet">
 
+     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootswatch/3.3.5/slate/bootstrap.min.css">
+
     <!-- Latest compiled and minified JavaScript -->
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
@@ -26,6 +28,20 @@
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+  
+  <style>
+  .nav > li {
+    display: inline;
+  }
+  .nav > li > a {
+    display: inline;
+  }
+  ul.nav {
+    padding-top: 15px;
+  }
+
+  </style>
+
   </head>
  <body>
 
@@ -37,29 +53,26 @@
 
           <div class="masthead clearfix">
             <div class="inner">
-              <h3 class="masthead-brand">Cover</h3>
+              <h3 class="masthead-brand">{{site_title}}</h3>
               <nav>
                 <ul class="nav masthead-nav">
-                  <li class="active"><a href="#">Home</a></li>
-                  <li><a href="#">Features</a></li>
-                  <li><a href="#">Contact</a></li>
+                  {{#navigation}}
+                  <li> <a href="{{url}}"> {{name}} </a> </li>
+                  {{/navigation}}
+
+
                 </ul>
               </nav>
             </div>
           </div>
 
           <div class="inner cover">
-            <h1 class="cover-heading">{{site_title}}</h1>
-            <p class="lead">Cover is a one-page template for building simple and beautiful home pages. Download, edit the text, and add your own fullscreen background photo to make it your own.</p>
+            <h1 class="cover-heading">Send a letter</h1>
+            <p class="lead">Has an organisation misgendered you or been transphobic toward you? You can use this form to send them an anonymous letter explaining what they've done wrong, and how they can improve.</p>
+            <p> foo bar baz bux </p>
             <p class="lead">
               <a href="#" class="btn btn-lg btn-default">Learn more</a>
             </p>
-          </div>
-
-          <div class="mastfoot">
-            <div class="inner">
-              <p>Cover template for <a href="http://getbootstrap.com">Bootstrap</a>, by <a href="https://twitter.com/mdo">@mdo</a>.</p>
-            </div>
           </div>
 
         </div>
@@ -71,9 +84,7 @@
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script src="../../dist/js/bootstrap.min.js"></script>
-    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
   </body>
 </html>

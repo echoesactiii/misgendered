@@ -13,16 +13,16 @@ $m = new Mustache_Engine(array(
 	'loader' => new Mustache_Loader_FilesystemLoader(dirname(__FILE__).'/mustache_templates')
 ));
 
-$header = $m->loadTemplate("header");
-$footer = $m->loadTemplate("footer");
-
-$headerModel = array(
-	"site_title" => $settings['site']['title']
+$bodyModel = array(
+	"site_title" => $settings['site']['title'],
+	"navigation" => $settings['nav']
 );
 
 if($url == "home"){
-	$bodyModel = $headerModel;
-
 	$body = $m->loadTemplate("home");
 	echo $body->render($bodyModel);
+}else{
+	$body = $m->loadTemplate('page');
+	echo $body->render($bodyModel);
 }
+
