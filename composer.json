@@ -1,0 +1,9 @@
+{
+    "name": "TheKatastrophe/misgendered",
+    "description": "Web app for automated sending of postal letters to organisations requiring education on transgender issues.",
+    "version": "1.0",
+    "homepage": "http://mxandry.net",
+    "require": {
+        "mustache/mustache": "*"
+    }
+}
