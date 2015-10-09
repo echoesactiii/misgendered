@@ -13,6 +13,10 @@ $m = new Mustache_Engine(array(
 	'loader' => new Mustache_Loader_FilesystemLoader(dirname(__FILE__).'/mustache_templates')
 ));
 
+$l = new Mustache_Engine(array(
+	'loader' => new Mustache_Loader_FilesystemLoader(dirname(__FILE__).'/letter_templates')
+));
+
 $bodyModel = array(
 	"site_title" => $settings['site']['title'],
 	"navigation" => $settings['nav']
@@ -28,6 +32,23 @@ if($url == "home"){
 		// TODO: do some erroring thing
 	}
 
+	$letterModel = array(
+		'org_name' => $_POST['org_name'],
+		'org_house' => $_POST['org_house'],
+		'org_street' => $_POST['org_street'],
+		'org_city' => $_POST['org_city'],
+		'org_postcode' => $_POST['org_postcode'],
+		'letter_type' => $_POST['letter_type'],
+		'site_domain' => $settings['site']['domain'],
+		'site_title' => $settings['site']['signature'],
+		'site_email' => $settings['site']['email'],
+		'other_info' => $_POST['other_info']
+		//BEES ARE DELICIOUS
+	);
+
+	$letterView = $l->loadTemplate($_POST['letter_type']);
+	$letterHTML = $letterView->render($letterModel);
+
 	$letter = R::dispense('letter');
 	$letter->ip = $_SERVER['REMOTE_ADDR'];
 	$letter->name = $_POST['org_name'];
@@ -37,40 +58,48 @@ if($url == "home"){
 	$letter->postcode = $_POST['org_postcode'];
 	$letter->type = $_POST['letter_type'];
 	$letter->info = $_POST['other_info'];
-	$letter->body = "blah blah blah blha blah"; // TODO: come back to this.
+	$letter->body = strip_tags($letterHTML);
 	$letter->time = time();
 
 	$apiData = array(
 		"cmd" => "SendLetter",
-		"login" => $settings['pc2paper']['username'],
-		"password" => $settings['pc2paper']['password'],
+		"login" => urlencode($settings['pc2paper']['username']),
+		"password" => urlencode($settings['pc2paper']['password']),
 		"blnIncludeSenderAddress" => "false",
 		"blnDebug" => "true",
-		"strName" => $_POST['org_name'],
-		"strHouseName" => $_POST['org_house'],
-		"strStreet" => $_POST['org_street'],
-		"strTownCity" => $_POST['org_city'],
-		"strPostCode" => $_POST['org_postcode'],
-		"iCountry" => $settings['pc2paper']['country_code'],
-		"postage" => $settings['pc2paper']['postage_id'],
-		"Extras" => $settings['pc2paper']['extras_id'],
-		"Paper" => $settings['pc2paper']['paper_id'],
-		"Envelope" => $settings['pc2paper']['envelope_id'],
-		"strBody" => "blah blah blah blah blah blah" // TODO: come back to this.
+		"strName" => urlencode($_POST['org_name']),
+		"strHouseName" => urlencode($_POST['org_house']),
+		"strStreet" => urlencode($_POST['org_street']),
+		"strTownCity" => urlencode($_POST['org_city']),
+		"strPostCode" => urlencode($_POST['org_postcode']),
+		"iCountry" => urlencode($settings['pc2paper']['country_code']),
+		"postage" => urlencode($settings['pc2paper']['postage_id']),
+		"Extras" => urlencode($settings['pc2paper']['extras_id']),
+		"Paper" => urlencode($settings['pc2paper']['paper_id']),
+		"Envelope" => urlencode($settings['pc2paper']['envelope_id']),
+		"strBody" => urlencode($letterHTML)
 	);
 
 	foreach($apiData as $k => $v){
 		$postData .= $k."=".$v."&";
 	}
 
+	if($settings['site']['actually_send_letters']){
+		$curl = curl_init();
+		curl_setopt($curl, CURLOPT_URL, $settings['pc2paper']['endpoint']);
+		curl_setopt($curl, CURLOPT_POST, 1);
+		curl_setopt($curl, CURLOPT_POSTFIELDS, $postData);
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 
-	$curl = curl_init();
-	curl_setopt($curl, CURLOPT_URL, $settings['pc2paper']['endpoint']);
-	curl_setopt($curl, CURLOPT_POST, 1);
-	curl_setopt($curl, CURLOPT_POSTFIELDS, $postData);
-	curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+		$apiResult = curl_exec($curl);
 
-	$apiResult = curl_exec($curl);
+	}else{
+		if($settings['site']['disabled_letter_send_makes_errors']){
+			$apiResult = "ERR-Local: Letter sending is disabled.";
+		}else{
+			$apiResult = "OK-Local: Letter sending is disabled.";
+		}
+	}
 
 	$letter->result = $apiResult;
 
