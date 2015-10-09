@@ -19,6 +19,8 @@ $bodyModel = array(
 );
 
 if($url == "home"){
+	$bodyModel['letter_types'] = $settings['letters'];
+
 	$body = $m->loadTemplate("home");
 	echo $body->render($bodyModel);
 }else{
