@@ -51,7 +51,7 @@
       <div class="jumbotron">
         <h1>{{header}}</h1>
         <p class="lead">{{&subheader}}</p>
-        <p><a class="btn btn-{{btn_size}} btn-{{btn_type}}" href="{{btn_url}}" role="button">{{btn_text}}</a></p>
+        {{#btn_text}}<p><a class="btn btn-{{btn_size}} btn-{{btn_type}}" href="{{btn_url}}" role="button">{{btn_text}}</a></p>{{/btn_text}}
       </div>
 
       <div class="row marketing">
