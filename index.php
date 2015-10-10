@@ -24,7 +24,7 @@ $bodyModel = array(
 	"navigation" => $settings['nav']
 );
 
-if($url == "home"){
+if($url == "home"){ // HOME PAGE
 	$bodyModel['letter_types'] = $settings['letters'];
 	$bodyModel['place_api_key'] = $settings['google_places']['api_key'];
 	$bodyModel['recaptcha_site_key'] = $settings['recaptcha']['site_key'];
@@ -35,7 +35,7 @@ if($url == "home"){
 
 	$body = $m->loadTemplate("home");
 	echo $body->render($bodyModel);
-}elseif($url == "send-letter"){
+}elseif($url == "send-letter"){ // SEND LETTER
 	$_SESSION = array();
 
 	if(!$_POST['org_name'] || !$_POST['org_postcode'] || !$_POST['org_city'] || !$_POST['letter_type']){
@@ -169,6 +169,15 @@ if($url == "home"){
 
 	R::store($letter);
 }else{
+	$page = R::findOne('page', 'url = :url', array(':url' => $url));
+
+	$bodyModel['header'] = $page->header;
+	$bodyModel['subheader'] = $page->subheader;
+	$bodyModel['btn_size'] = $page->btnSize;
+	$bodyModel['btn_type'] = $page->btnType;
+	$bodyModel['btn_url'] = $page->btnUrl;
+	$bodyModel['btn_text'] = $page->btnText;
+	
 	$body = $m->loadTemplate('page');
 	echo $body->render($bodyModel);
 }
