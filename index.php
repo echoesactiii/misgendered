@@ -160,7 +160,7 @@ if($url == "home"){ // HOME PAGE
 		header("Location: ".$settings['pages']['error']);
 		exit();
 	}else{
-		$_SESSION['letter_sent'] = true;
+		$_SESSION['success_message'] = $settings['messages']['letter_sent'];
 		$letter->sent = true;
 		R::store($letter);
 		header("Location: ".$settings['pages']['success']);
@@ -177,7 +177,31 @@ if($url == "home"){ // HOME PAGE
 	$bodyModel['btn_type'] = $page->btnType;
 	$bodyModel['btn_url'] = $page->btnUrl;
 	$bodyModel['btn_text'] = $page->btnText;
-	
+
+	$listItems = R::find('pagelistitems', 'url = :url ORDER BY item ASC', array(':url' => $url));
+	$lCount = 0;
+	$rCount = 0;
+
+	foreach($listItems as $listItem){
+		if($listItem->side == "left"){
+			$leftList[$lCount]['title'] = $listItem->title;
+			$leftList[$lCount]['body'] = $listItem->body;
+			$lCount++;
+		}elseif($listItem->side == "right"){
+			$rightList[$rCount]['title'] = $listItem->title;
+			$rightList[$rCount]['body'] = $listItem->body;
+			$rCount++;
+		}
+	}
+
+	$bodyModel['section_left'] = $leftList;
+	$bodyModel['section_right'] = $rightList;
+
+	if($_SESSION['success_message']){
+		$bodyModel['success_message'] = $_SESSION['success_message'];
+		unset($_SESSION['success_message']);
+	}
+
 	$body = $m->loadTemplate('page');
 	echo $body->render($bodyModel);
 }
