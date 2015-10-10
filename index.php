@@ -154,12 +154,13 @@ if($url == $homePageName){ // HOME PAGE
 	$letter->result = $apiResult;
 
 	if(stristr($apiResult, "ERR")){
-		// display some encouraging message to user about how we'll ensure it's sent
-		// send us an email to look into it
-		// maybe offer user to put in email address so we can update them.]
 		$letter->sent = false;
 		$letterId = R::store($letter);
+
+		mail($settings['site']['error_email'], "Letter ".$letterId." could not be sent.", "Letter ".$letterId." has been stored in the database, but could not be sent. The upstream error message was: ".$apiResult, "From: ".$settings['site']['title']." <".$settings['site']['error_email'].">");
+
 		$_SESSION['letter_error'] = $letterId;
+
 		header("Location: ".$settings['pages']['error']);
 		exit();
 	}else{
