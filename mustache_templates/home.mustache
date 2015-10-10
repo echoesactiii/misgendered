@@ -84,17 +84,17 @@
                 <div class="row">
                   <div class="form-group col-md-12">
                     <label class="sr-only" for="company_name">Organisation Name</label>
-                    <input type="text" class="form-control" name="org_name" id="org_name" placeholder="Company Name" required="true">
+                    <input type="text" class="form-control" name="org_name" id="org_name" placeholder="Company Name (typing will search)" required="true">
                   </div>
                 </div>
                 <div class="row">
                   <div class="form-group col-md-3">
                     <label class="sr-only" for="org_house">House number or name</label>
-                    <input type="text" class="form-control" name="org_house" id="org_house" placeholder="House nbr/name" required="true">
+                    <input type="text" class="form-control" name="org_house" id="org_house" placeholder="House nbr/name">
                   </div>
                   <div class="form-group col-md-3">
                     <label class="sr-only" for="org_street">Street name</label>
-                    <input type="text" class="form-control" name="org_street" id="org_street" placeholder="Street name" required="true">
+                    <input type="text" class="form-control" name="org_street" id="org_street" placeholder="Street name">
                   </div>
                   <div class="form-group col-md-3">
                     <label class="sr-only" for="org_city">City</label>
@@ -142,5 +142,43 @@
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="//maps.googleapis.com/maps/api/js?key={{places_api_key}}&libraries=places"></script>
+    <script>
+      var searchBox = document.getElementById('org_name');
+      var options = {
+        types: ['establishment'],
+        componentRestrictions: {country: 'gb'}
+      };
+
+      autocomplete = new google.maps.places.Autocomplete(searchBox, options);
+      autocomplete.addListener('place_changed', fillInForm);
+
+      function fillInForm(){
+        var place = autocomplete.getPlace();
+
+        $('#org_house').val("");
+        $('#org_street').val("");
+        $('#org_city').val("");
+        $('#org_postcode').val("");
+
+        console.log(place);
+
+        for(var count = 0; count < place.address_components.length; count++){
+          var addressType = place.address_components[count].types[0];
+          var formField = "";
+
+          if(addressType == "street_number"){ formField = "org_house"; }
+          if(addressType == "route"){ formField = "org_street"; }
+          if(addressType == "postal_town"){ formField = "org_city"; }
+          if(addressType == "postal_code"){ formField = "org_postcode"; }
+
+          if(formField){
+            $('#' + formField).val(place.address_components[count].short_name);
+          }
+        }
+
+        $('#org_name').val(place.name);
+      }
+    </script>
   </body>
 </html>

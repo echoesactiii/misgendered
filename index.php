@@ -24,12 +24,19 @@ $bodyModel = array(
 
 if($url == "home"){
 	$bodyModel['letter_types'] = $settings['letters'];
+	$bodyModel['place_api_key'] = $settings['google_places']['api_key'];
 
 	$body = $m->loadTemplate("home");
 	echo $body->render($bodyModel);
 }elseif($url == "send-letter"){
-	if(!$_POST['org_name'] || !$_POST['org_house'] || !$_POST['org_street'] || !$_POST['org_postcode'] || !$_POST['org_city'] || !$_POST['letter_type']){
+	if(!$_POST['org_name'] || !$_POST['org_postcode'] || !$_POST['org_city'] || !$_POST['letter_type']){
 		// TODO: do some erroring thing
+	}
+
+	if($_POST['org_house'] || $_POST['org_street']){
+		$printHouseStreet = true;
+	}else{
+		$printHouseStreet = false;
 	}
 
 	$letterModel = array(
@@ -42,12 +49,15 @@ if($url == "home"){
 		'site_domain' => $settings['site']['domain'],
 		'site_title' => $settings['site']['signature'],
 		'site_email' => $settings['site']['email'],
-		'other_info' => $_POST['other_info']
+		'other_info' => $_POST['other_info'],
+		'house_or_street' => $printHouseStreet
 		//BEES ARE DELICIOUS
 	);
 
 	$letterView = $l->loadTemplate($_POST['letter_type']);
 	$letterHTML = $letterView->render($letterModel);
+
+
 
 	$letter = R::dispense('letter');
 	$letter->ip = $_SERVER['REMOTE_ADDR'];
@@ -60,6 +70,8 @@ if($url == "home"){
 	$letter->info = $_POST['other_info'];
 	$letter->body = strip_tags($letterHTML);
 	$letter->time = time();
+
+
 
 	$apiData = array(
 		"cmd" => "SendLetter",
@@ -79,6 +91,7 @@ if($url == "home"){
 		"Envelope" => urlencode($settings['pc2paper']['envelope_id']),
 		"strBody" => urlencode($letterHTML)
 	);
+
 
 	foreach($apiData as $k => $v){
 		$postData .= $k."=".$v."&";

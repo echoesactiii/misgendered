@@ -37,4 +37,7 @@ $settings['pc2paper']['extras_id'] = ""; // Must be empty string, not unset, if 
 $settings['pc2paper']['envelope_id'] = 1;
 $settings['pc2paper']['paper_id'] = 1;
 
+$settings['google_places']['api_key'] = "your-google-places-api-key"; // Get a key here: https://developers.google.com/places/javascript/
+
+
 ?>
