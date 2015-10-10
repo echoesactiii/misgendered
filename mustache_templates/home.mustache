@@ -122,11 +122,16 @@
                     <textarea name="other_info" id="other_info" class="form-control" placeholder="(Optional) Any other information you wish to provide, this will be included as a PS in the letter. Do not use personally identifying info unless anonymity is not an issue."></textarea>
                   </div>
                 </div>
-              </p>
-              <p class="lead">
-                <button type="submit" id="send_letter" class="btn btn-lg btn-success">Send my letter</button>
-                <br/>
-                <a href="/examples" class="btn btn-primary btn-sm">See example letters</a>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="g-recaptcha" data-sitekey="{{recaptcha_site_key}}"></div>
+                  </div>
+                  <div class="col-md-6">
+                    <button type="submit" id="send_letter" class="btn btn-lg btn-success">Send my letter</button>
+                    <br/>
+                    <a href="/examples" class="btn btn-primary btn-sm">See example letters</a>
+                  </div>
+                </div>
               </p>
             </form>
           </div>
@@ -143,6 +148,8 @@
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="//maps.googleapis.com/maps/api/js?key={{places_api_key}}&libraries=places"></script>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
     <script>
       var searchBox = document.getElementById('org_name');
       var options = {
