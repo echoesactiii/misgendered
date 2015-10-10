@@ -24,7 +24,9 @@ $bodyModel = array(
 	"navigation" => $settings['nav']
 );
 
-if($url == "home"){ // HOME PAGE
+$homePageName = preg_replace("/^\//", '', $settings['pages']['home']);
+
+if($url == $homePageName){ // HOME PAGE
 	$bodyModel['letter_types'] = $settings['letters'];
 	$bodyModel['place_api_key'] = $settings['google_places']['api_key'];
 	$bodyModel['recaptcha_site_key'] = $settings['recaptcha']['site_key'];
@@ -68,6 +70,7 @@ if($url == "home"){ // HOME PAGE
 		'site_domain' => $settings['site']['domain'],
 		'site_title' => $settings['site']['signature'],
 		'site_email' => $settings['site']['email'],
+		'letter_prefix' => $settings['reference']['prefix'],
 		'other_info' => $_POST['other_info'],
 		//BEES ARE DELICIOUS
 	);
