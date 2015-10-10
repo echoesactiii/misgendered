@@ -33,12 +33,6 @@ if($url == "home"){
 		// TODO: do some erroring thing
 	}
 
-	if($_POST['org_house'] || $_POST['org_street']){
-		$printHouseStreet = true;
-	}else{
-		$printHouseStreet = false;
-	}
-
 	$letterModel = array(
 		'org_name' => $_POST['org_name'],
 		'org_house' => $_POST['org_house'],
@@ -50,20 +44,35 @@ if($url == "home"){
 		'site_title' => $settings['site']['signature'],
 		'site_email' => $settings['site']['email'],
 		'other_info' => $_POST['other_info'],
-		'house_or_street' => $printHouseStreet
 		//BEES ARE DELICIOUS
 	);
+
+
+	if($_POST['org_house'] || $_POST['org_street']){
+		$letterModel['house_or_street'] = true;
+	}
 
 	$letterView = $l->loadTemplate($_POST['letter_type']);
 	$letterHTML = $letterView->render($letterModel);
 
+	$letterValidation = array(
+		'org_house' => $_POST['org_house'],
+		'org_street' => $_POST['org_street']
+	);
 
+	if(!$letterValidation['org_house']) { //if this is blank
+		$letterValidation['org_house'] = " ";
+	}
+
+	if(!$letterValidation['org_street']) { //if this is blank
+		$letterValidation['org_street'] = " ";
+	}
 
 	$letter = R::dispense('letter');
 	$letter->ip = $_SERVER['REMOTE_ADDR'];
 	$letter->name = $_POST['org_name'];
-	$letter->house = $_POST['org_house'];
-	$letter->street = $_POST['org_street'];
+	$letter->house = $letterValidation['org_house'];
+	$letter->street = $letterValidation['org_street'];
 	$letter->city = $_POST['org_city'];
 	$letter->postcode = $_POST['org_postcode'];
 	$letter->type = $_POST['letter_type'];
@@ -80,8 +89,8 @@ if($url == "home"){
 		"blnIncludeSenderAddress" => "false",
 		"blnDebug" => "true",
 		"strName" => urlencode($_POST['org_name']),
-		"strHouseName" => urlencode($_POST['org_house']),
-		"strStreet" => urlencode($_POST['org_street']),
+		"strHouseName" => urlencode($letterValidation['org_house']),
+		"strStreet" => urlencode($letterValidation['org_street']),
 		"strTownCity" => urlencode($_POST['org_city']),
 		"strPostCode" => urlencode($_POST['org_postcode']),
 		"iCountry" => urlencode($settings['pc2paper']['country_code']),
