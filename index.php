@@ -8,7 +8,7 @@ session_start();
 
 R::setup('mysql:host='.$settings['database']['server'].'; dbname='.$settings['database']['database'],$settings['database']['username'],$settings['database']['password']);
 
-$url = preg_replace("/\//", '', $_SERVER['REQUEST_URI']);
+$url = preg_replace("/^\//", '', $_SERVER['REQUEST_URI']);
 if(!$url){ $url = "home"; }
 
 $m = new Mustache_Engine(array(
@@ -169,6 +169,11 @@ if($url == "home"){ // HOME PAGE
 
 	R::store($letter);
 }else{
+	if(preg_match("/^".$settings['reference']['prefix']."\/(.+)$/", $url, $matches)){
+		$url = $matches[1];
+		$bodyModel['navigation'] = $settings['reference']['nav'];
+	}
+
 	$page = R::findOne('page', 'url = :url', array(':url' => $url));
 
 	$bodyModel['header'] = $page->header;

@@ -19,6 +19,9 @@ $settings['nav'][1]['url'] = '/about';
 $settings['nav'][2]['name'] = 'Donate';
 $settings['nav'][2]['url'] = '/donate';
 
+$settings['reference_nav'][0]['name'] = "What is this?";
+$settings['reference_nav'][0]['url'] = "/who-are-we";
+
 // These are used for redirections on errors and successes.
 $settings['pages']['home'] = '/home';
 $settings['pages']['success'] = '/donate';
