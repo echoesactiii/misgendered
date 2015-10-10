@@ -29,19 +29,25 @@ if($url == "home"){
 	$bodyModel['place_api_key'] = $settings['google_places']['api_key'];
 	$bodyModel['recaptcha_site_key'] = $settings['recaptcha']['site_key'];
 
+	if($_SESSION['home_error']){
+		$bodyModel['error_message'] = $_SESSION['home_error'];
+	}
+
 	$body = $m->loadTemplate("home");
 	echo $body->render($bodyModel);
 }elseif($url == "send-letter"){
-	$_SESSION['letter_sent'] = false;
+	$_SESSION = array();
 
 	if(!$_POST['org_name'] || !$_POST['org_postcode'] || !$_POST['org_city'] || !$_POST['letter_type']){
 		$_SESSION['home_error'] = "One or more required fields were not filled out. Organisation name, city, postcode and the type of letter are required.";
 		header("Location: ".$settings['pages']['home']);
+		exit();
 	}
 
 	if(!$_POST['g-recaptcha-response']){
 		$_SESSION['home_error'] = "You must confirm that you are, in fact, a human.";
 		header("Location: ".$settings['pages']['home']);
+		exit();
 	}
 
 	$recaptcha = new \ReCaptcha\ReCaptcha($settings['recaptcha']['secret_key']);
@@ -49,6 +55,7 @@ if($url == "home"){
 	if(!$captchaResponse->isSuccess()){
 		$_SESSION['home_error'] = "The captcha was not correctly completed.";
 		header("Location: ".$settings['pages']['home']);
+		exit();
 	}
 
 	$letterModel = array(
@@ -151,11 +158,13 @@ if($url == "home"){
 		$letterId = R::store($letter);
 		$_SESSION['letter_error'] = $letterId;
 		header("Location: ".$settings['pages']['error']);
+		exit();
 	}else{
 		$_SESSION['letter_sent'] = true;
 		$letter->sent = true;
 		R::store($letter);
 		header("Location: ".$settings['pages']['success']);
+		exit();
 	}
 
 	R::store($letter);

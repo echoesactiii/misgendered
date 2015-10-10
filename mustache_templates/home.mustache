@@ -49,6 +49,9 @@
   p.lead {
     font-size: 16px;
   }
+  div.alert {
+    color: #333;
+  }
 
   </style>
 
@@ -78,6 +81,7 @@
 
           <div class="inner cover">
             <h1 class="cover-heading">Send a letter</h1>
+            {{#error_message}}<div class="alert alert-danger">{{error_message}}</div>{{/error_message}}
             <p class="lead">Has an organisation misgendered you or been transphobic toward you? You can use this form to send them an anonymous letter explaining what they've done wrong, and how they can improve. (For the moment, this is limited to UK addresses.)</p>
             <form class="form" action="send-letter" method="POST">
               <p>
