@@ -4,6 +4,7 @@
     "version": "1.0",
     "homepage": "http://mxandry.net",
     "require": {
-        "mustache/mustache": "*"
+        "mustache/mustache": "*",
+        "google/recaptcha": "~1.1"
     }
 }

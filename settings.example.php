@@ -19,6 +19,11 @@ $settings['nav'][1]['url'] = '/about';
 $settings['nav'][2]['name'] = 'Donate';
 $settings['nav'][2]['url'] = '/donate';
 
+// These are used for redirections on errors and successes.
+$settings['pages']['home'] = '/home';
+$settings['pages']['success'] = '/donate';
+$settings['pages']['error'] = '/error';
+
 $settings['letters'][0]['heading'] = "I was misgendered by the staff. (unintentionally)";
 $settings['letters'][0]['name'] = "misgendered";
 $settings['letters'][1]['heading'] = "An intentionally transphobic incident occurred. (intentional misgendering, abuse, teasing, etc)";
@@ -39,5 +44,6 @@ $settings['pc2paper']['paper_id'] = 1;
 
 $settings['google_places']['api_key'] = "your-google-places-api-key"; // Get a key here: https://developers.google.com/places/javascript/
 
-
+$settings['recaptcha']['site_key'] = "recaptcha-site-key";
+$settings['recaptcha']['secret_key'] = "recaptcha-secret-key"; 
 ?>

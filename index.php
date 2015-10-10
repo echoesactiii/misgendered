@@ -4,6 +4,8 @@ require "settings.php";
 require "include/rb.php";
 require "vendor/autoload.php";
 
+session_start();
+
 R::setup('mysql:host='.$settings['database']['server'].'; dbname='.$settings['database']['database'],$settings['database']['username'],$settings['database']['password']);
 
 $url = preg_replace("/\//", '', $_SERVER['REQUEST_URI']);
@@ -25,12 +27,28 @@ $bodyModel = array(
 if($url == "home"){
 	$bodyModel['letter_types'] = $settings['letters'];
 	$bodyModel['place_api_key'] = $settings['google_places']['api_key'];
+	$bodyModel['recaptcha_site_key'] = $settings['recaptcha']['site_key'];
 
 	$body = $m->loadTemplate("home");
 	echo $body->render($bodyModel);
 }elseif($url == "send-letter"){
+	$_SESSION['letter_sent'] = false;
+
 	if(!$_POST['org_name'] || !$_POST['org_postcode'] || !$_POST['org_city'] || !$_POST['letter_type']){
-		// TODO: do some erroring thing
+		$_SESSION['home_error'] = "One or more required fields were not filled out. Organisation name, city, postcode and the type of letter are required.";
+		header("Location: ".$settings['pages']['home']);
+	}
+
+	if(!$_POST['g-recaptcha-response']){
+		$_SESSION['home_error'] = "You must confirm that you are, in fact, a human.";
+		header("Location: ".$settings['pages']['home']);
+	}
+
+	$recaptcha = new \ReCaptcha\ReCaptcha($settings['recaptcha']['secret_key']);
+	$captchaResponse = $recaptcha->verify($_POST['g-recaptcha-response'], $_SERVER['REMOTE_ADDR']);
+	if(!$captchaResponse->isSuccess()){
+		$_SESSION['home_error'] = "The captcha was not correctly completed.";
+		header("Location: ".$settings['pages']['home']);
 	}
 
 	$letterModel = array(
@@ -128,11 +146,16 @@ if($url == "home"){
 	if(stristr($apiResult, "ERR")){
 		// display some encouraging message to user about how we'll ensure it's sent
 		// send us an email to look into it
-		// maybe offer user to put in email address so we can update them.
+		// maybe offer user to put in email address so we can update them.]
 		$letter->sent = false;
+		$letterId = R::store($letter);
+		$_SESSION['letter_error'] = $letterId;
+		header("Location: ".$settings['pages']['error']);
 	}else{
-		// display a page asking user please donate - their letter was sent.
+		$_SESSION['letter_sent'] = true;
 		$letter->sent = true;
+		R::store($letter);
+		header("Location: ".$settings['pages']['success']);
 	}
 
 	R::store($letter);
