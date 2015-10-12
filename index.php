@@ -264,6 +264,7 @@ if($url == $homePageName){ // HOME PAGE
 	$bodyModel['btn_type'] = $page->btnType;
 	$bodyModel['btn_url'] = $page->btnUrl;
 	$bodyModel['btn_text'] = $page->btnText;
+	$bodyModel['footer'] = $settings['site']['footer'];
 
 	$listItems = R::find('pagelistitems', 'url = :url ORDER BY item ASC', array(':url' => $url));
 	$lCount = 0;
