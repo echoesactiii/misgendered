@@ -89,7 +89,7 @@ $settings['pages']['error'] = '/error';
 // This is the page a user should be sent if the rate-limiter has
 // been triggered bt their attempt to send a letter.
 $settings['pages']['limiter'] = "/already-sent";
-// Please see the 'Conditional Pages' section of the README for information
+// Please see the 'Templates' section of the README for information
 // on creating these pages. With the exception of the homepage, these do NOT
 // create the page content for you, and operate only as redirects.
 
