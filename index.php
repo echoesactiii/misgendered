@@ -203,8 +203,13 @@ if($url == $homePageName){ // HOME PAGE
 		'house_or_street' => "true"
 	);
 
-	$letterView = $l->loadTemplate($matches[1]);
-	$letterHTML = $letterView->render($letterModel);
+	try{
+		$letterView = $l->loadTemplate($matches[1]);
+		$letterHTML = $letterView->render($letterModel);
+	}catch (Exception $e){
+		header("Location: /404");
+		exit();
+	}
 
 	$bodyModel['letter_content'] = $letterHTML;
 
@@ -227,8 +232,13 @@ if($url == $homePageName){ // HOME PAGE
 		'house_or_street' => "true"
 	);
 
-	$letterView = $l->loadTemplate($matches[1]);
-	$letterHTML = $letterView->render($letterModel);
+	try{
+		$letterView = $l->loadTemplate($matches[1]);
+		$letterHTML = $letterView->render($letterModel);
+	}catch (Exception $e){
+		header("Location: /404");
+		exit();
+	}
 
 	$bodyModel['letter_content'] = $letterHTML;
 
@@ -242,6 +252,11 @@ if($url == $homePageName){ // HOME PAGE
 	}
 
 	$page = R::findOne('page', 'url = :url', array(':url' => $url));
+
+	if(!$page){
+		header("HTTP/1.1 404 Page Not Found");
+		$page = R::findOne('page', 'url = :url', array(':url' => '404'));
+	}
 
 	$bodyModel['header'] = $page->header;
 	$bodyModel['subheader'] = $page->subheader;
