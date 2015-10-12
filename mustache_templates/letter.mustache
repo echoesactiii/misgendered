@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+
+    <title>{{site_title}}</title>
+
+    <style>
+      body {
+        background-color: #333;
+      }
+      .page {
+        background-color: #FFFFF0;
+      }
+
+      @media (min-width: 510px){
+        .page {
+          margin: 0 auto 25px;
+          max-width: 21cm;
+          height: 29.7cm;
+          overflow: hidden;
+        }
+        .content {
+          padding: 2cm 2cm 0 2cm;
+          max-height: 25.7cm;
+          overflow: hidden;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="page" id="page1">
+      <div class="content">
+        <p id="p1">{{&letter_content}}</p>
+      </div>
+    </div>
+    <div class="page" id="page2">
+      <div class="content">
+        <p id="p2"><!-- overflow --></p>
+      </div>
+    </div>
+  </body>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+  <script>
+  $().ready(function(){
+    doOverflow();
+  });
+
+  function doOverflow(){
+    if($(document).width() > 510){
+      var arrPageOne = $('#p1').html().split('');
+      var arrPageTwo = [];
+      var keepGoing = false;
+
+      while($('#p1').height() + 15 > $('#page1 .content').height() || keepGoing == true) {
+        var character = arrPageOne.pop();
+        arrPageTwo.unshift(character);
+        $('#p1').html(arrPageOne.join(''));
+
+        if(character == " " || character == "\n" ){ keepGoing = false; }else{ keepGoing = true; }
+      }
+
+      var p2text = arrPageTwo.join('');
+      //var p2textClean = p2text;
+      var p2textClean = p2text.replace(/^\s+<br><br>/, '');
+
+      $('#p2').html(p2textClean);
+    }
+  }
+  </script>
+</html>

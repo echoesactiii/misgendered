@@ -8,8 +8,10 @@ session_start();
 
 R::setup('mysql:host='.$settings['database']['server'].'; dbname='.$settings['database']['database'],$settings['database']['username'],$settings['database']['password']);
 
+$homePageName = preg_replace("/^\//", '', $settings['pages']['home']);
+
 $url = preg_replace("/^\//", '', $_SERVER['REQUEST_URI']);
-if(!$url){ $url = "home"; }
+if(!$url){ $url = $homePageName; }
 
 $m = new Mustache_Engine(array(
 	'loader' => new Mustache_Loader_FilesystemLoader(dirname(__FILE__).'/mustache_templates')
@@ -23,8 +25,6 @@ $bodyModel = array(
 	"site_title" => $settings['site']['title'],
 	"navigation" => $settings['nav']
 );
-
-$homePageName = preg_replace("/^\//", '', $settings['pages']['home']);
 
 if($url == $homePageName){ // HOME PAGE
 	$bodyModel['letter_types'] = $settings['letters'];
@@ -58,6 +58,22 @@ if($url == $homePageName){ // HOME PAGE
 		$_SESSION['home_error'] = "The captcha was not correctly completed.";
 		header("Location: ".$settings['pages']['home']);
 		exit();
+	}
+
+	$existingLetters = R::findAll('letter', 'postcode = :postcode AND sent = true ORDER BY time DESC', array(':postcode' => $_POST['org_postcode']));
+	foreach($existingLetters as $existing){
+		if(time() < $existing->time + 2592000){
+			if(
+				(
+					($_POST['org_house'] && $existing->house == $_POST['org_house']) ||
+					(!$_POST['org_house'] && $_POST['org_street'] && $existing->street == $_POST['org_street']) ||
+					(!$_POST['org_house'] && !$_POST['org_street'] && $existing->name == $_POST['org_name'])
+				) && !$_POST['other_info'] && $_POST['letter_type'] == $existing->type
+			){
+				header("Location: ".$settings['pages']['limiter']);
+				exit();
+			}
+		}
 	}
 
 	$letterModel = array(
@@ -172,6 +188,53 @@ if($url == $homePageName){ // HOME PAGE
 	}
 
 	R::store($letter);
+}elseif(preg_match("/^".$settings['examples']['prefix']."\/(.+)$/", $url, $matches)){
+	$letterModel = array(
+		'org_name' => $settings['examples']['name'],
+		'org_house' => $settings['examples']['house'],
+		'org_street' => $settings['examples']['street'],
+		'org_city' => $settings['examples']['city'],
+		'org_postcode' => $settings['examples']['postcode'],
+		'letter_type' => $matches[1],
+		'site_domain' => $settings['site']['domain'],
+		'site_title' => $settings['site']['signature'],
+		'site_email' => $settings['site']['email'],
+		'letter_prefix' => $settings['reference']['prefix'],
+		'house_or_street' => "true"
+	);
+
+	$letterView = $l->loadTemplate($matches[1]);
+	$letterHTML = $letterView->render($letterModel);
+
+	$bodyModel['letter_content'] = $letterHTML;
+
+	$body = $m->loadTemplate('letter');
+	echo $body->render($bodyModel);
+
+}elseif(preg_match("/^".$settings['examples']['other_info_prefix']."\/(.+)$/", $url, $matches)){
+	$letterModel = array(
+		'org_name' => $settings['examples']['name'],
+		'org_house' => $settings['examples']['house'],
+		'org_street' => $settings['examples']['street'],
+		'org_city' => $settings['examples']['city'],
+		'org_postcode' => $settings['examples']['postcode'],
+		'letter_type' => $matches[1],
+		'site_domain' => $settings['site']['domain'],
+		'site_title' => $settings['site']['signature'],
+		'site_email' => $settings['site']['email'],
+		'letter_prefix' => $settings['reference']['prefix'],
+		'other_info' => $settings['examples']['other_info'],
+		'house_or_street' => "true"
+	);
+
+	$letterView = $l->loadTemplate($matches[1]);
+	$letterHTML = $letterView->render($letterModel);
+
+	$bodyModel['letter_content'] = $letterHTML;
+
+	$body = $m->loadTemplate('letter');
+	echo $body->render($bodyModel);
+
 }else{
 	if(preg_match("/^".$settings['reference']['prefix']."\/(.+)$/", $url, $matches)){
 		$url = $matches[1];
