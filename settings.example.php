@@ -32,7 +32,7 @@ $settings['site']['disabled_letter_send_makes_errors'] = false;
 // a page cannot be found.
 $settings['site']['404_page'] = "404";
 // This is the footer, displayed on all content pages of the site.
-$settings['site']['footer'] = "The Misgendered Project is part of <a href='http://queerapps.net'>Queer Apps</a>, and is an open-source application, available on <a href='https://github.com/TheKatastrophe/misgendered'>GitHub</a>.";
+$settings['site']['footer'] = "The Misgendered Project is part of <a href='http://queerapps.net'>Queer Apps</a>, and is an open-source application, available on <a href='https://github.com/TheKatastrophe/misgendered'>GitHub</a>. Licensed under GPLv3.";
 
 ////// This section controls the navigation for the users of the site //////
 // This should be an array of names and URLs that are shown at
