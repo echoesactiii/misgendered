@@ -145,7 +145,6 @@ if($url == $homePageName){ // HOME PAGE
 		"strBody" => urlencode($letterHTML)
 	);
 
-
 	foreach($apiData as $k => $v){
 		$postData .= $k."=".$v."&";
 	}
@@ -245,7 +244,7 @@ if($url == $homePageName){ // HOME PAGE
 	$body = $m->loadTemplate('letter');
 	echo $body->render($bodyModel);
 
-}else{
+}else{ // NOT THE HOMEPAGE
 	if(preg_match("/^".$settings['reference']['prefix']."\/(.+)$/", $url, $matches)){
 		$url = $matches[1];
 		$bodyModel['navigation'] = $settings['reference']['nav'];
@@ -265,6 +264,9 @@ if($url == $homePageName){ // HOME PAGE
 	$bodyModel['btn_url'] = $page->btnUrl;
 	$bodyModel['btn_text'] = $page->btnText;
 	$bodyModel['footer'] = $settings['site']['footer'];
+	$bodyModel['comm_multi'] = $settings['pricing']['commission_percentage'];
+	$bodyModel['comm_add'] = $settings['pricing']['commission_value'];
+	$bodyModel['letter_cost'] = $settings['pricing']['letter_cost'];
 
 	$listItems = R::find('pagelistitems', 'url = :url ORDER BY item ASC', array(':url' => $url));
 	$lCount = 0;
