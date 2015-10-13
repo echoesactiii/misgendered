@@ -54,19 +54,18 @@
 
   function doOverflow(){
     if($(document).width() > 510){
-      var arrPageOne = $('#p1').html().split('');
+      var arrPageOne = $('#p1').html().split(/\s+/);
       var arrPageTwo = [];
       var keepGoing = false;
 
-      while($('#p1').height() + 15 > $('#page1 .content').height() || keepGoing == true) {
-        var character = arrPageOne.pop();
-        arrPageTwo.unshift(character);
-        $('#p1').html(arrPageOne.join(''));
-
-        if(character == " " || character == "\n" ){ keepGoing = false; }else{ keepGoing = true; }
+      while($('#p1').height() + 15 > $('#page1 .content').height()) {
+        var word = arrPageOne.pop();
+        console.log(word);
+        arrPageTwo.unshift(word);
+        $('#p1').html(arrPageOne.join(' '));
       }
 
-      var p2text = arrPageTwo.join('');
+      var p2text = arrPageTwo.join(' ');
       //var p2textClean = p2text;
       var p2textClean = p2text.replace(/^\s+<br><br>/, '');
 
