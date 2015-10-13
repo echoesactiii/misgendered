@@ -24,6 +24,7 @@ $l = new Mustache_Engine(array(
 
 $bodyModel = array(
 	"site_title" => $settings['site']['title'],
+	"site_domain" => $settings['site']['domain'],
 	"navigation" => $settings['nav']
 );
 
