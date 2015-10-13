@@ -1,8 +1,8 @@
 <?php
 
 ////// Parameters for connecting to the MySQL database. //////
-$settings['database']['password'] = "dbpass";
-$settings['database']['username'] = "dbuser";
+$settings['database']['password'] = "dbpassword";
+$settings['database']['username'] = "dbusername";
 $settings['database']['database'] = "database";
 $settings['database']['server'] = "127.0.0.1";
 
@@ -14,9 +14,9 @@ $settings['site']['title'] = "Misgendered Project";
 $settings['site']['domain'] = "misgendered.yourdomain";
 // This is the contact email address. It is used as the FROM
 // header in error reports, and printed in the signature of letters.
-$settings['site']['email'] = "your@email.com";
+$settings['site']['email'] = "you@email.com";
 // This is the email address automated error reports should be sent to.
-$settings['site']['error_email'] = "your@email.com";
+$settings['site']['error_email'] = "you@email.com";
 // This is the name of the site as it is printed in the signature of letters.
 $settings['site']['signature'] = 'The Misgendered Project';
 // Setting actually_send_letters to false prevents the script from calling
@@ -85,6 +85,10 @@ $settings['pages']['home'] = '/home';
 // This is the page a user should be sent to after their letter
 // has been set.
 $settings['pages']['success'] = '/donate';
+// This is the page that the donation widgets should be added to
+$settings['pages']['donate'] = '/donate';
+// This is the page a user is sent to after a successful donation.
+$settings['pages']['thanks'] = "/thanks";
 // This is the page a user should be sent to if the pc2paper API
 // returns an error.
 $settings['pages']['error'] = '/error';
@@ -126,11 +130,24 @@ $settings['pc2paper']['extras_id'] = ""; // Must be empty string, not unset, if 
 $settings['pc2paper']['envelope_id'] = 1;
 $settings['pc2paper']['paper_id'] = 1;
 
+////// Settings for calculating commission of payment processor (currently stripe) //////
+// The percentage portion of the commission taken, as a multiplication value.
+// (e.g. 1.9% = 0.019, to multiply you would use 1.019)
+$settings['pricing']['commission_percentage'] = 1.019;
+// The fixed portion of the commission taken.
+$settings['pricing']['commission_value'] = 0.20;
+// The cost of each individual letter.
+$settings['pricing']['letter_cost'] = 0.84;
+
+// Stripe keys for taking payments - get these from stripe.com
+$settings['stripe']['publishable_key'] = "stripe-publishable-key";
+$settings['stripe']['secret_key'] = "stripe-secret-key";
+
 // This is your Google Place API key. It's used to do
 // the search-as-you-type for addresses on the homepage.
 // To get your API key, visit:
 // https://developers.google.com/places/javascript/
-$settings['google_places']['api_key'] = "google-place-api-key";
+$settings['google_places']['api_key'] = "google-places-api-key";
 
 // These are your Recaptcha API keys. It's used to do
 // spam protection and bot detection on the homepage.
