@@ -51,7 +51,38 @@
       <div class="jumbotron">
         <h1>{{header}}</h1>
         <p class="lead">{{&subheader}}</p>
-        {{#btn_text}}<p><a class="btn btn-{{btn_size}} btn-{{btn_type}}" href="{{btn_url}}" role="button">{{btn_text}}</a></p>{{/btn_text}}
+        {{#btn_text}}
+          <p><a class="btn btn-{{btn_size}} btn-{{btn_type}}" href="{{btn_url}}" role="button">{{btn_text}}</a></p>
+        {{/btn_text}}
+
+        {{#donate_page}}
+          <br/><br/>
+          <form class='form-inline' action='/process-donation' method='POST' id='donate_form'>
+            <div class='form-group' style='margin-right:1cm;'>
+              <label class='sr-only' for='money'>
+                Donation amount in GBP.
+              </label>
+              <div class='input-group'>
+                <DIV CLASS='input-group-addon'>&pound;</DIV>
+                <input type='text' class='form-control' id='money' name='donation_amount' value='1.91'/>
+              </div>
+            </div>
+
+            <div class='form-group' style='margin-right: 1cm;'>
+              <label class='sr-only' for='letters'>
+                Number of letters.
+              </label>
+              <div class='input-group'>
+                <DIV CLASS='input-group-addon'>funds</DIV>
+                <input type='text' class='form-control' id='letters' value='2'/> 
+                <DIV CLASS='input-group-addon'>letters</DIV>
+              </div>
+            </div>
+            <input type="hidden" name="stripe_token" id="stripe_token"/>
+            <input type="hidden" name="stripe_email" id="stripe_email"/>
+            <button id="donate-btn" class="btn btn-success btn-default" type="submit">Make this donation</button>
+          </form>
+        {{/donate_page}}
       </div>
 
       <div class="row marketing">
@@ -83,11 +114,17 @@
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-    <script>
-    var comm_multi = {{comm_multi}};
-    var comm_add = {{comm_add}};
-    var letter_cost = {{letter_cost}};
-    </script>
-    <script src='/js/donate.js'> </script>
+    
+    {{#donate_page}}
+      <script src="https://checkout.stripe.com/checkout.js"></script>
+      <script>
+        var comm_multi = {{comm_multi}};
+        var comm_add = {{comm_add}};
+        var letter_cost = {{letter_cost}};
+        var site_title = "{{site_title}}";
+        var stripe_key = "{{stripe_key}}";
+      </script>
+      <script src='/js/donate.js'> </script>
+    {{/donate_page}}
   </body>
 </html>

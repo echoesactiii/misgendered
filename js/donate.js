@@ -12,7 +12,6 @@ $().ready(function(){
 		}
 
 		$("#money").val(money.toFixed(2)); // Fill form with result
-
 	});
 
 
@@ -25,7 +24,32 @@ $().ready(function(){
 		}
 
 		$("#letters").val(Math.floor(letters)); // Fill form with result
-
 	});
 
+	$('#donate-btn').on('click', function(e) {
+		// Open Checkout with further options
+		handler.open({
+			name: site_title,
+			description: site_title + ' Funds Donation',
+			currency: "gbp",
+			amount: $('#money').val() * 100
+		});
+		e.preventDefault();
+	});
+
+	// Close Checkout on page navigation
+	$(window).on('popstate', function() {
+		handler.close();
+	});
+
+});
+
+var handler = StripeCheckout.configure({
+	key: stripe_key,
+	locale: 'auto',
+	token: function(token) {
+	  $('#stripe_token').val(token.id);
+	  $('#stripe_email').val(token.email);
+	  $('#donate_form').submit();
+	}
 });

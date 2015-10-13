@@ -9,6 +9,7 @@ session_start();
 R::setup('mysql:host='.$settings['database']['server'].'; dbname='.$settings['database']['database'],$settings['database']['username'],$settings['database']['password']);
 
 $homePageName = preg_replace("/^\//", '', $settings['pages']['home']);
+$donatePageName = preg_replace("/^\//", '', $settings['pages']['donate']);
 
 $url = preg_replace("/^\//", '', $_SERVER['REQUEST_URI']);
 if(!$url){ $url = $homePageName; }
@@ -33,6 +34,7 @@ if($url == $homePageName){ // HOME PAGE
 
 	if($_SESSION['home_error']){
 		$bodyModel['error_message'] = $_SESSION['home_error'];
+		unset($_SESSION['home_error']);
 	}
 
 	$body = $m->loadTemplate("home");
@@ -187,6 +189,34 @@ if($url == $homePageName){ // HOME PAGE
 	}
 
 	R::store($letter);
+}elseif($url == "process-donation"){
+	if(!$_POST['stripe_token'] || !$_POST['stripe_email'] || !$_POST['donation_amount']){
+		$_SESSION['home_error'] = "Donation checkout incomplete.";
+		header("Location: ".$settings['pages']['home']);
+		exit();
+	}
+
+	\Stripe\Stripe::setApiKey($settings['stripe']['secret_key']);
+
+	$customer = \Stripe\Customer::create(array(
+		'email' => $_POST['stripe_email'],
+		'card'  => $_POST['stripe_token']
+	));
+
+	$charge = \Stripe\Charge::create(array(
+		'customer' => $customer->id,
+		'amount'   => $_POST['donation_amount'] * 100,
+		'currency' => 'gbp'
+	));
+
+	if(!$charge->id){
+		$_SESSION['home_error'] = "We're sorry, but there was a problem processing your donation.";
+		header("Location: ".$settings['pages']['home']);
+		exit();
+	}
+
+	header("Location: ".$settings['pages']['thanks']);
+	exit();
 }elseif(preg_match("/^".$settings['examples']['prefix']."\/(.+)$/", $url, $matches)){
 	$letterModel = array(
 		'org_name' => $settings['examples']['name'],
@@ -250,6 +280,14 @@ if($url == $homePageName){ // HOME PAGE
 		$bodyModel['navigation'] = $settings['reference']['nav'];
 	}
 
+	if($url == $donatePageName){
+		$bodyModel['donate_page'] = true;
+		$bodyModel['comm_multi'] = $settings['pricing']['commission_percentage'];
+		$bodyModel['comm_add'] = $settings['pricing']['commission_value'];
+		$bodyModel['letter_cost'] = $settings['pricing']['letter_cost'];
+		$bodyModel['stripe_key'] = $settings['stripe']['publishable_key'];
+	}
+
 	$page = R::findOne('page', 'url = :url', array(':url' => $url));
 
 	if(!$page){
@@ -264,9 +302,6 @@ if($url == $homePageName){ // HOME PAGE
 	$bodyModel['btn_url'] = $page->btnUrl;
 	$bodyModel['btn_text'] = $page->btnText;
 	$bodyModel['footer'] = $settings['site']['footer'];
-	$bodyModel['comm_multi'] = $settings['pricing']['commission_percentage'];
-	$bodyModel['comm_add'] = $settings['pricing']['commission_value'];
-	$bodyModel['letter_cost'] = $settings['pricing']['letter_cost'];
 
 	$listItems = R::find('pagelistitems', 'url = :url ORDER BY item ASC', array(':url' => $url));
 	$lCount = 0;

@@ -5,6 +5,7 @@
     "homepage": "http://mxandry.net",
     "require": {
         "mustache/mustache": "*",
-        "google/recaptcha": "~1.1"
+        "google/recaptcha": "~1.1",
+        "stripe/stripe-php": "3.*"
     }
 }
