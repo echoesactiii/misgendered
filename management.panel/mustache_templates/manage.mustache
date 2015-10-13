@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+    <title>{{site_title}}</title>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootswatch/3.3.5/slate/bootstrap.min.css">
+
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+
+
+    <!-- Custom styles for this template -->
+    <link href="styles/manage.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">{{site_title}}</a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="#">Logged in as: {{username}}</a></li>
+            <li><a href="?logout=true">Log out</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container">
+
+      <div class="starter-template">
+        {{#alert}}<div class="alert alert-{{alert_type}}">{{alert}}</div>{{/alert}}
+        <h1>Letter Management</h1>
+        <table class="table">
+          <tbody>
+            <tr><th>ID</th><th>Status</th><th>IP</th><th>Company</th><th>House</th><th>Street</th><th>City</th><th>Postcode</th><th>Type</th><th>Date/time</th><th>Actions</th></tr>
+            {{#letters}}
+              <tr class="{{colour}}"><td>{{id}}</td><td>{{status}}</td><td>{{ip}}</td><td>{{name}}</td><td>{{house}}</td><td>{{street}}</td><td>{{city}}</td><td>{{postcode}}</td><td>{{type}}</td><td>{{date}}</td><td><form class="resend-form" action="index.php" id="resend-form-{{id}}" method="POST"><a tabindex="0" role="button" data-toggle="popover" title="Letter Body" data-placement="left" data-trigger="focus" data-content="{{body}}"><i class="fa fa-file"></i></a> <a tabindex="0" role="button" data-toggle="popover" title="API Result" data-placement="left" data-trigger="focus" data-content="{{result}}"><i class="fa fa-commenting"></i></a> <input type="hidden" name="resend" value="{{id}}" /><a href="?resend={{id}}" class="resend-btn"><i class="fa fa-mail-forward"></i></a></form></td></tr>
+            {{/letters}}
+          </tbody>
+        </table>
+      </div>
+
+    </div><!-- /.container -->
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script>
+      $(function () {
+        $('[data-toggle="popover"]').popover()
+      });
+
+      $().ready(function(){
+        $('.resend-form').each(function(index, element){
+          var formId = $(element).attr('id');
+          $('#' + formId + ' a.resend-btn').click(function(e){
+            e.preventDefault();
+            $('#' + formId).submit();
+          });
+        });
+      });
+    </script>
+  </body>
+</html>

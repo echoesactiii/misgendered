@@ -1,0 +1,19 @@
+body {
+  padding-top: 50px;
+}
+.starter-template {
+  padding: 40px 15px;
+  text-align: center;
+}
+td {
+	color: #333;
+}
+.popover-title{
+	color: #ccc;
+}
+.popover-content{
+	color: #ccc;
+}
+.alert {
+	color: #333;
+}
