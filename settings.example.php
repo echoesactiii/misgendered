@@ -76,7 +76,7 @@ $settings['examples']['house'] = "48";
 $settings['examples']['street'] = "Swan Road";
 $settings['examples']['city'] = "London";
 $settings['examples']['postcode'] = "N34 63ZQ";
-$settings['examples']['other_info'] = "I went to the store, and a clerk told me that I couldn't purchase a women's product becuase I 'looked like a man'. This happened at 12:30 on Saturday the third of September, the clerk was named Ronald.";
+$settings['examples']['other_info'] = "I went to the store, and a clerk told me that I couldn't purchase a women's product because I 'looked like a man'. This happened at 12:30 on Saturday the third of September, the clerk was named Ronald.";
 
 ////// These control the URLs that can be redirected to based on conditions //////
 // This should point to your home page - whatever you set this

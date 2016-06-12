@@ -923,7 +923,7 @@ class RPDO implements Driver
 	}
 
 	/**
-	 * @see Driver::Excecute
+	 * @see Driver::Execute
 	 */
 	public function Execute( $sql, $bindings = array() )
 	{
